@@ -68,7 +68,7 @@ public class JDTUtils {
 		if(binding != null){
 			return getQualifiedMethodFullName(binding);
 		} else {
-			return node.getName().getFullyQualifiedName() + "/" + getMethodSignature(node.arguments(), node.typeArguments());
+			return node.getName().getFullyQualifiedName() + "/" + getMethodSignature(node.typeArguments());
 		}
 	}
 
@@ -77,10 +77,11 @@ public class JDTUtils {
 		IMethodBinding binding = node.resolveMethodBinding();
 		if(binding != null){
 			return getQualifiedMethodFullName(binding);
-		} else if(node.getQualifier() != null){
-			return node.getQualifier().getFullyQualifiedName() + getMethodSignature(node.arguments(), node.typeArguments());
 		}
-		return node.getName().getFullyQualifiedName() + "/" + getMethodSignature(node.arguments(), node.typeArguments());
+        if(node.getQualifier() != null){
+            return node.getQualifier().getFullyQualifiedName() + getMethodSignature(node.typeArguments());
+        }
+        return node.getName().getFullyQualifiedName() + "/" + getMethodSignature(node.typeArguments());
 	}
 
 	//Get the signature of a method with parameter count and types, e.g. 1[int]
@@ -126,7 +127,7 @@ public class JDTUtils {
 	}
 
 	//Helper method to extract the number of arguments from an argument list used to generate the method signature for MethodInvocation nodes
-	private static String getMethodSignature(List<?> arguments, List<?> typeArguments) {
+	private static String getMethodSignature(List<?> typeArguments) {
         List<String> parameterTypes = typeArguments.stream().map(object -> object.toString()).collect(Collectors.toList());
 		return formatSignature(parameterTypes);
 	}
