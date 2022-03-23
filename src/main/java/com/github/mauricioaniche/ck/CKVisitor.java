@@ -308,7 +308,6 @@ public class CKVisitor extends ASTVisitor {
 			List<ClassLevelMetric> classes = classLevelMetrics.call();
 			classes.forEach(c -> { c.setClassName(className); });
 			return classes;
-//			return classLevelMetrics.call();
 		} catch(Exception e) {
 			throw new RuntimeException("Could not instantiate class level visitors", e);
 		}
@@ -319,7 +318,6 @@ public class CKVisitor extends ASTVisitor {
 			List<MethodLevelMetric> methods = methodLevelMetrics.call();
 			methods.forEach(m -> { m.setMethodName(methodName); });
 			return methods;
-//			return methodLevelMetrics.call();
 		} catch(Exception e) {
 			throw new RuntimeException("Could not instantiate method level visitors", e);
 		}
