@@ -7,6 +7,7 @@ public class NumberOfParameters implements CKASTVisitor, MethodLevelMetric{
 
 	private int qty = 0;
 
+    @Override
 	public void visit(MethodDeclaration node) {
 		qty = node.parameters() == null ? 0 : node.parameters().size();
 	}

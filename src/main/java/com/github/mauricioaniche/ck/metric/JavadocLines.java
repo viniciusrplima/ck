@@ -10,10 +10,12 @@ public class JavadocLines implements CKASTVisitor, MethodLevelMetric {
     int methodsVisited = 0;
     boolean hasJavadoc = false;
 
+    @Override
     public void visit(MethodDeclaration node) {
         methodsVisited++;
     }
 
+    @Override
     public void visit(Javadoc node) {
         /**
          * We only count a javadoc if it is declared in the first

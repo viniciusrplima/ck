@@ -22,6 +22,7 @@ public class MethodLevelFieldUsageCount implements CKASTVisitor, MethodLevelMetr
 		this.variables = new HashSet<>();
 	}
 
+    @Override
 	public void visit(MethodDeclaration node) {
 		IMethodBinding binding = node.resolveBinding();
 		if(binding==null)
@@ -34,23 +35,28 @@ public class MethodLevelFieldUsageCount implements CKASTVisitor, MethodLevelMetr
 		}
 	}
 
+    @Override
 	public void visit(VariableDeclarationFragment node) {
 		String var = node.getName().toString();
 		variables.add(var);
 	}
 
+    @Override
 	public void visit(FieldAccess node) {
 		isFieldAccess = true;
 	}
 
+    @Override
 	public void endVisit(FieldAccess node) {
 		isFieldAccess = false;
 	}
 
+    @Override
 	public void visit(QualifiedName node){
 		isQualifiedName = true;
 	}
 
+    @Override
 	public void endVisit(QualifiedName node) {
 		isQualifiedName = false;
 	}
@@ -61,6 +67,7 @@ public class MethodLevelFieldUsageCount implements CKASTVisitor, MethodLevelMetr
 		occurrences.put(var, occurrences.get(var) + 1);
 	}
 
+    @Override
 	public void visit(SimpleName node) {
 		String variableName = node.getIdentifier();
 

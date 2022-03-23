@@ -16,7 +16,8 @@ public class LCOM implements CKASTVisitor, ClassLevelMetric {
 	public LCOM() {
 		this.declaredFields = new HashSet<String>();
 	}
-	
+
+    @Override
 	public void visit(FieldDeclaration node) {
 		
 		for(Object o : node.fragments()) {
@@ -25,7 +26,8 @@ public class LCOM implements CKASTVisitor, ClassLevelMetric {
 		}
 		
 	}
-	
+
+    @Override
 	public void visit(SimpleName node) {
 		String name = node.getFullyQualifiedName();
 		if(declaredFields.contains(name)) {
@@ -39,7 +41,8 @@ public class LCOM implements CKASTVisitor, ClassLevelMetric {
 			methods.get(methods.size() - 1).add(name);
 		}
 	}
-	
+
+    @Override
 	public void visit(MethodDeclaration node) {
 		methods.add(new TreeSet<String>());
 		

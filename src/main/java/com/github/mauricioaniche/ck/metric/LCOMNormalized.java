@@ -20,22 +20,24 @@ public class LCOMNormalized implements CKASTVisitor, ClassLevelMetric {
 	HashMap<String, TreeSet<String>> declaredFields;
 	ArrayList<String> methods;
 	ArrayList<Integer> flags;
-	
+
 	public LCOMNormalized() {
 		this.declaredFields = new HashMap<>();
 		this.methods = new ArrayList<String>();
 		this.flags = new ArrayList<Integer>();
 	}
-	
+
+    @Override
 	public void visit(FieldDeclaration node) {
-		
+
 		for(Object o : node.fragments()) {
 			VariableDeclarationFragment vdf = (VariableDeclarationFragment) o;
 			declaredFields.put(vdf.getName().toString(), new TreeSet<String>());
 		}
 		
 	}
-	
+
+    @Override
 	public void visit(SimpleName node) {
 		String name = node.getFullyQualifiedName();
 		if(declaredFields.containsKey(name)) {
@@ -49,7 +51,8 @@ public class LCOMNormalized implements CKASTVisitor, ClassLevelMetric {
 			this.declaredFields.get(name).add(this.methods.get(this.methods.size() - 1));
 		}
 	}
-	
+
+    @Override
 	public void visit(MethodDeclaration node) {
 		
 		String currentMethodName = JDTUtils.getMethodFullName(node);

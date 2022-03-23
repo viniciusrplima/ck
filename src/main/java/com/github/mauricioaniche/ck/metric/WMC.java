@@ -98,6 +98,7 @@ public class WMC implements CKASTVisitor, ClassLevelMetric, MethodLevelMetric {
     	increaseCc();
     }
 
+    @Override
     public void visit(IfStatement node) {
 
 	    increaseCCFromExpression(node.getExpression());

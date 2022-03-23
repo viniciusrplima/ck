@@ -12,7 +12,8 @@ public class NumberOfInnerClassesLambdasAndAnonymousClasses implements CKASTVisi
 
 	private String firstFound = null;
 
-	public void visit(TypeDeclaration node) {
+    @Override
+    public void visit(TypeDeclaration node) {
 
 		if(firstFound == null)
 			firstFound = "type";
@@ -20,6 +21,7 @@ public class NumberOfInnerClassesLambdasAndAnonymousClasses implements CKASTVisi
 		innerClassesQty++;
 	}
 
+    @Override
 	public void visit(EnumDeclaration node) {
 		// we count enum as class declaration!
 		innerClassesQty++;
@@ -28,6 +30,7 @@ public class NumberOfInnerClassesLambdasAndAnonymousClasses implements CKASTVisi
 			firstFound = "enum";
 	}
 
+    @Override
 	public void visit(LambdaExpression node) {
 		lambdasQty++;
 
@@ -35,6 +38,7 @@ public class NumberOfInnerClassesLambdasAndAnonymousClasses implements CKASTVisi
 			firstFound = "lambda";
 	}
 
+    @Override
 	public void visit(AnonymousClassDeclaration node) {
 		anonymousClassesQty++;
 
