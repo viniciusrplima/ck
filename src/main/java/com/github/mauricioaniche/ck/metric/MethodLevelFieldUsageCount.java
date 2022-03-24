@@ -37,8 +37,8 @@ public class MethodLevelFieldUsageCount implements CKASTVisitor, MethodLevelMetr
 
     @Override
 	public void visit(VariableDeclarationFragment node) {
-		String var = node.getName().toString();
-		variables.add(var);
+		String variable = node.getName().toString();
+		variables.add(variable);
 	}
 
     @Override
@@ -61,10 +61,10 @@ public class MethodLevelFieldUsageCount implements CKASTVisitor, MethodLevelMetr
 		isQualifiedName = false;
 	}
 
-	private void plusOne(String var) {
-		if (!occurrences.containsKey(var))
-			occurrences.put(var, 0);
-		occurrences.put(var, occurrences.get(var) + 1);
+	private void plusOne(String variable) {
+		if (!occurrences.containsKey(variable))
+			occurrences.put(variable, 0);
+		occurrences.put(variable, occurrences.get(variable) + 1);
 	}
 
     @Override
