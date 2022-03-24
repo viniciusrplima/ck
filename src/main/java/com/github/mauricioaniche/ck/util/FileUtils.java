@@ -13,6 +13,10 @@ import java.util.stream.Stream;
 public class FileUtils {
   public static final List<String> IGNORED_DIRECTORIES = new ArrayList<>();
 
+    private FileUtils() {
+
+    }
+
   //Initialize ignored directories with .git.
   static {
     //Use separator so this works on both Windows and Unix-like systems!

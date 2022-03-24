@@ -10,7 +10,10 @@ import java.io.InputStreamReader;
 
 public class LOCCalculator {
 
-	private static Logger log = Logger.getLogger(LOCCalculator.class);
+    private LOCCalculator() {
+    }
+
+    private static Logger log = Logger.getLogger(LOCCalculator.class);
 	
 	public static int calculate(String sourceCode) {
 		try {

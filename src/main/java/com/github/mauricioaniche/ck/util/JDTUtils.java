@@ -9,7 +9,10 @@ import java.util.stream.Collectors;
 
 public class JDTUtils {
 
-	/**
+    private JDTUtils() {
+    }
+
+    /**
 	 * If the method has a body, we can get the starting line of the method, ignoring any possible
 	 * Javadoc at the top of it.
 	 * If there's no body, JDT doesn't create a 'body', and thus, we can't get its starting position; thus,
