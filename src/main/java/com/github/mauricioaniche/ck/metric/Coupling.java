@@ -3,13 +3,9 @@ package com.github.mauricioaniche.ck.metric;
 import com.github.mauricioaniche.ck.CKClassResult;
 import com.github.mauricioaniche.ck.CKMethodResult;
 import com.github.mauricioaniche.ck.util.JDTUtils;
-
 import org.eclipse.jdt.core.dom.*;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Coupling implements CKASTVisitor, ClassLevelMetric, MethodLevelMetric {
 
@@ -323,7 +319,7 @@ public class Coupling implements CKASTVisitor, ClassLevelMetric, MethodLevelMetr
 
 	@Override
 	public void setResult(CKClassResult result) {
-		
+
 	}
 
 	@Override
