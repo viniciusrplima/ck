@@ -11,14 +11,17 @@ import static com.github.mauricioaniche.ck.util.WordCounter.removeSpacesAndIdent
 public class MethodLevelWordCounter implements CKASTVisitor, MethodLevelMetric {
 	private String methodSourceCode;
 
+    @Override
 	public void visit(MethodDeclaration node) {
 		this.methodSourceCode = removeSpacesAndIdentation(node.toString());
 	}
 
+    @Override
 	public void visit(Initializer node) {
 		this.methodSourceCode = removeSpacesAndIdentation(node.toString());
 	}
 
+    @Override
 	public void visit(TypeDeclaration node) {
 
 		String otherType = removeSpacesAndIdentation(node.toString());

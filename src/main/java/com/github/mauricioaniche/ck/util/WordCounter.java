@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 
 public class WordCounter {
 
+    private WordCounter() {
+    }
+
 	private static Set<String> javaKeywords;
 
 	static {

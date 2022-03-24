@@ -33,6 +33,7 @@ public class CBO implements CKASTVisitor, ClassLevelMetric, MethodLevelMetric {
 		coupleTo(node.getType());
 	}
 
+    @Override
 	public void visit(ReturnStatement node) {
 		if (node.getExpression() != null) {
 			coupleTo(node.getExpression().resolveTypeBinding());
@@ -43,12 +44,14 @@ public class CBO implements CKASTVisitor, ClassLevelMetric, MethodLevelMetric {
 	public void visit(TypeLiteral node) {
 		coupleTo(node.getType());
 	}
-	
+
+    @Override
 	public void visit(ThrowStatement node) {
 		if(node.getExpression()!=null)
 			coupleTo(node.getExpression().resolveTypeBinding());
 	}
 
+    @Override
 	public void visit(TypeDeclaration node) {
 		ITypeBinding resolvedType = node.resolveBinding();
 
@@ -68,6 +71,7 @@ public class CBO implements CKASTVisitor, ClassLevelMetric, MethodLevelMetric {
 
 	}
 
+    @Override
 	public void visit(MethodDeclaration node) {
 
 		IMethodBinding resolvedMethod = node.resolveBinding();
@@ -109,18 +113,22 @@ public class CBO implements CKASTVisitor, ClassLevelMetric, MethodLevelMetric {
 
 	}
 
+    @Override
 	public void visit(NormalAnnotation node) {
 		coupleTo(node);
 	}
 
+    @Override
 	public void visit(MarkerAnnotation node) {
 		coupleTo(node);
 	}
 
+    @Override
 	public void visit(SingleMemberAnnotation node) {
 		coupleTo(node);
 	}
 
+    @Override
 	public void visit(ParameterizedType node) {
 		try {
 			ITypeBinding binding = node.resolveBinding();

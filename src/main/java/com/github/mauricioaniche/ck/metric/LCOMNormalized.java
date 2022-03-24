@@ -1,41 +1,39 @@
 package com.github.mauricioaniche.ck.metric;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
-
+import com.github.mauricioaniche.ck.CKClassResult;
+import com.github.mauricioaniche.ck.util.JDTUtils;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
-import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
-import com.github.mauricioaniche.ck.CKClassResult;
-import com.github.mauricioaniche.ck.util.JDTUtils;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeSet;
 
 public class LCOMNormalized implements CKASTVisitor, ClassLevelMetric {
 
 	HashMap<String, TreeSet<String>> declaredFields;
 	ArrayList<String> methods;
 	ArrayList<Integer> flags;
-	
+
 	public LCOMNormalized() {
 		this.declaredFields = new HashMap<>();
 		this.methods = new ArrayList<String>();
 		this.flags = new ArrayList<Integer>();
 	}
-	
+
+    @Override
 	public void visit(FieldDeclaration node) {
-		
+
 		for(Object o : node.fragments()) {
 			VariableDeclarationFragment vdf = (VariableDeclarationFragment) o;
 			declaredFields.put(vdf.getName().toString(), new TreeSet<String>());
 		}
 		
 	}
-	
+
+    @Override
 	public void visit(SimpleName node) {
 		String name = node.getFullyQualifiedName();
 		if(declaredFields.containsKey(name)) {
@@ -49,7 +47,8 @@ public class LCOMNormalized implements CKASTVisitor, ClassLevelMetric {
 			this.declaredFields.get(name).add(this.methods.get(this.methods.size() - 1));
 		}
 	}
-	
+
+    @Override
 	public void visit(MethodDeclaration node) {
 		
 		String currentMethodName = JDTUtils.getMethodFullName(node);
@@ -99,7 +98,7 @@ public class LCOMNormalized implements CKASTVisitor, ClassLevelMetric {
 			sum = sum + (((float) (numberOfMethods - this.declaredFields.get(key).size())) / numberOfMethods);
 		
 		if(numberOfAttributes > 0)
-			lcomNormalized = (((float) 1) * sum) / numberOfAttributes;
+			lcomNormalized = (1 * sum) / numberOfAttributes;
 		
 		result.setLcomNormalized(lcomNormalized);
 		

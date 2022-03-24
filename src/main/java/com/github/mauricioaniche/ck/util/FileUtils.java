@@ -8,9 +8,14 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class FileUtils {
   public static final List<String> IGNORED_DIRECTORIES = new ArrayList<>();
+
+    private FileUtils() {
+
+    }
 
   //Initialize ignored directories with .git.
   static {
@@ -20,16 +25,15 @@ public class FileUtils {
 
 	//Get all directories from the directory at the given path.
 	public static String[] getAllDirs(String path) {
-		try {
-			return Files.walk(Paths.get(path))
-					.filter(Files::isDirectory)
-          .filter(FileUtils::isHiddenDir)
-					.filter(x -> !isIgnoredDir(x.toAbsolutePath().toString(), IGNORED_DIRECTORIES))
-					.map(x -> x.toAbsolutePath().toString())
-					.toArray(String[]::new);
-		} catch(Exception e) {
-			throw new RuntimeException(e);
-		}
+        try (Stream<Path> walk = Files.walk(Paths.get(path))) {
+            return walk.filter(Files::isDirectory)
+                       .filter(FileUtils::isHiddenDir)
+                       .filter(x -> !isIgnoredDir(x.toAbsolutePath().toString(), IGNORED_DIRECTORIES))
+                       .map(x -> x.toAbsolutePath().toString())
+                       .toArray(String[]::new);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 	}
 
 	//Get all java class files from the directory at the given path.
@@ -44,16 +48,15 @@ public class FileUtils {
 
 	//Get all files from of the given file ending from the directory at the given path.
 	private static String[] getAllFiles(String path, String ending){
-		try {
-			return Files.walk(Paths.get(path))
-					.filter(Files::isRegularFile)
-					.filter(x -> !isIgnoredDir(x.toAbsolutePath().toString(), IGNORED_DIRECTORIES))
-					.filter(x -> x.toAbsolutePath().toString().toLowerCase().endsWith(ending))
-					.map(x -> x.toAbsolutePath().toString())
-					.toArray(String[]::new);
-		} catch(Exception e) {
-			throw new RuntimeException(e);
-		}
+        try (Stream<Path> walk = Files.walk(Paths.get(path))) {
+            return walk.filter(Files::isRegularFile)
+                       .filter(x -> !isIgnoredDir(x.toAbsolutePath().toString(), IGNORED_DIRECTORIES))
+                       .filter(x -> x.toAbsolutePath().toString().toLowerCase().endsWith(ending))
+                       .map(x -> x.toAbsolutePath().toString())
+                       .toArray(String[]::new);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 	}
 
   // Helper method that falls back to false if there is an exception.

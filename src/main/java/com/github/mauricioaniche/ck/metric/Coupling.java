@@ -3,13 +3,9 @@ package com.github.mauricioaniche.ck.metric;
 import com.github.mauricioaniche.ck.CKClassResult;
 import com.github.mauricioaniche.ck.CKMethodResult;
 import com.github.mauricioaniche.ck.util.JDTUtils;
-
 import org.eclipse.jdt.core.dom.*;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Coupling implements CKASTVisitor, ClassLevelMetric, MethodLevelMetric {
 
@@ -52,6 +48,7 @@ public class Coupling implements CKASTVisitor, ClassLevelMetric, MethodLevelMetr
 		}
 	}
 
+    @Override
 	public void visit(ReturnStatement node) {
 		if(this.className != null){
 			if (node.getExpression() != null) {
@@ -66,7 +63,8 @@ public class Coupling implements CKASTVisitor, ClassLevelMetric, MethodLevelMetr
 			coupleTo(node.getType());
 		}
 	}
-	
+
+    @Override
 	public void visit(ThrowStatement node) {
 		if(this.className != null) {
 			if(node.getExpression()!=null)
@@ -74,15 +72,16 @@ public class Coupling implements CKASTVisitor, ClassLevelMetric, MethodLevelMetr
 		}
 	}
 
+    @Override
 	public void visit(TypeDeclaration node) {
 		if(this.className != null) {
 			ITypeBinding resolvedType = node.resolveBinding();
-	
+
 			if(resolvedType!=null) {
 				ITypeBinding binding = resolvedType.getSuperclass();
 				if (binding != null)
 					coupleTo(binding);
-	
+
 				for (ITypeBinding interfaces : resolvedType.getInterfaces()) {
 					coupleTo(interfaces);
 				}
@@ -95,6 +94,7 @@ public class Coupling implements CKASTVisitor, ClassLevelMetric, MethodLevelMetr
 
 	}
 
+    @Override
 	public void visit(MethodDeclaration node) {
 		if(this.className != null) {
 			IMethodBinding resolvedMethod = node.resolveBinding();
@@ -145,24 +145,28 @@ public class Coupling implements CKASTVisitor, ClassLevelMetric, MethodLevelMetr
 
 	}
 
+    @Override
 	public void visit(NormalAnnotation node) {
 		if(this.className != null) {
 			coupleTo(node);
 		}
 	}
 
+    @Override
 	public void visit(MarkerAnnotation node) {
 		if(this.className != null) {
 			coupleTo(node);
 		}
 	}
 
+    @Override
 	public void visit(SingleMemberAnnotation node) {
 		if(this.className != null) {
 			coupleTo(node);
 		}
 	}
 
+    @Override
 	public void visit(ParameterizedType node) {
 		if(this.className != null) {
 			
@@ -315,7 +319,7 @@ public class Coupling implements CKASTVisitor, ClassLevelMetric, MethodLevelMetr
 
 	@Override
 	public void setResult(CKClassResult result) {
-		
+
 	}
 
 	@Override

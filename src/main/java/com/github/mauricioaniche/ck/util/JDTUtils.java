@@ -9,7 +9,10 @@ import java.util.stream.Collectors;
 
 public class JDTUtils {
 
-	/**
+    private JDTUtils() {
+    }
+
+    /**
 	 * If the method has a body, we can get the starting line of the method, ignoring any possible
 	 * Javadoc at the top of it.
 	 * If there's no body, JDT doesn't create a 'body', and thus, we can't get its starting position; thus,
@@ -68,7 +71,7 @@ public class JDTUtils {
 		if(binding != null){
 			return getQualifiedMethodFullName(binding);
 		} else {
-			return node.getName().getFullyQualifiedName() + "/" + getMethodSignature(node.arguments(), node.typeArguments());
+			return node.getName().getFullyQualifiedName() + "/" + getMethodSignature(node.typeArguments());
 		}
 	}
 
@@ -77,10 +80,11 @@ public class JDTUtils {
 		IMethodBinding binding = node.resolveMethodBinding();
 		if(binding != null){
 			return getQualifiedMethodFullName(binding);
-		} else if(node.getQualifier() != null){
-			return node.getQualifier().getFullyQualifiedName() + getMethodSignature(node.arguments(), node.typeArguments());
 		}
-		return node.getName().getFullyQualifiedName() + "/" + getMethodSignature(node.arguments(), node.typeArguments());
+        if(node.getQualifier() != null){
+            return node.getQualifier().getFullyQualifiedName() + getMethodSignature(node.typeArguments());
+        }
+        return node.getName().getFullyQualifiedName() + "/" + getMethodSignature(node.typeArguments());
 	}
 
 	//Get the signature of a method with parameter count and types, e.g. 1[int]
@@ -126,9 +130,8 @@ public class JDTUtils {
 	}
 
 	//Helper method to extract the number of arguments from an argument list used to generate the method signature for MethodInvocation nodes
-	private static String getMethodSignature(List<?> arguments, List<?> typeArguments) {
-		int argumentCount = arguments != null ? arguments.size() : 0;
-		List<String> parameterTypes = typeArguments.stream().map(object -> object.toString()).collect(Collectors.toList());
+	private static String getMethodSignature(List<?> typeArguments) {
+        List<String> parameterTypes = typeArguments.stream().map(object -> object.toString()).collect(Collectors.toList());
 		return formatSignature(parameterTypes);
 	}
 
